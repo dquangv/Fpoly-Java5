@@ -11,7 +11,6 @@
     <title>Lab 1 Bài 2</title>
 </head>
 <body>
-    <h1>HTTP Servlet</h1>
     <h2>${message}</h2>
 </body>
 </html>
