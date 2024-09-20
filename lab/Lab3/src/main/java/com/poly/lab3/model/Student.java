@@ -1,29 +1,35 @@
 package com.poly.lab3.model;
 
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student {
-    @NotBlank(message = "Vui lòng điền tên")
+    @NotBlank(message = "{NotBlank.student.name}")
     String name;
-    @NotBlank(message = "Vui lòng điền email")
-    @Email(message = "Vui lòng nhập đúng định dạng email")
+    @NotBlank(message = "{NotBlank.student.email}")
+    @Email(message = "{Email.student.email}")
     String email;
     @Min(0)
     @Max(10)
-    @NotNull
+    @NotNull(message = "{NotNull.student.marks}")
     Double marks;
-    @NotNull
+    @NotNull(message = "{NotNull.student.gender}")
     Boolean gender;
-    @NotBlank
     String faculty;
-    @NotEmpty
     List<String> hobbies;
 }

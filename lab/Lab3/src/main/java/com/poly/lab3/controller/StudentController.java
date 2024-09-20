@@ -17,14 +17,13 @@ import java.util.Map;
 @RequestMapping("/student")
 public class StudentController {
     @RequestMapping("/form")
-    public String form(@ModelAttribute("sv") Student sv) {
+    public String form(@ModelAttribute("student") Student sv) {
         return "student/form";
     }
 
     @RequestMapping("/save")
-    public String save(Model model, @Validated @ModelAttribute("sv") Student sv, BindingResult result) {
+    public String save(Model model, @Validated @ModelAttribute("student") Student sv, BindingResult result) {
         if (result.hasErrors()) {
-            model.addAttribute("message", "Vui lòng sửa các lỗi đã thông báo");
         } else {
             model.addAttribute("message", "Thông tin hợp lệ");
         }
