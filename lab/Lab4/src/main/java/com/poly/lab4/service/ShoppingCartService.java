@@ -1,15 +1,18 @@
 package com.poly.lab4.service;
 
-import com.poly.lab4.model.Item;
+import com.poly.lab4.model.Laptop;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface ShoppingCartService {
-    Item add(Integer id);
+//    Laptop add(Integer id);
+	void add(Integer id);
     void remove(Integer id);
-    Item update(Integer id, int qty);
+//    Laptop update(Integer id, int qty);
+    void update(Integer id, int qty);
     void clear();
-    Collection<Item> getItems();
+    Map<Integer, Laptop> getItems();
     int getCount();
     double getAmount();
 }

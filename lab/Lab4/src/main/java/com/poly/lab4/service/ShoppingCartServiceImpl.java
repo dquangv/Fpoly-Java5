@@ -1,10 +1,13 @@
 package com.poly.lab4.service;
 
-import com.poly.lab4.model.Item;
-import com.poly.lab4.utils.DB;
+import com.poly.lab4.model.Laptop;
+import com.poly.lab4.util.DB;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -13,57 +16,52 @@ import java.util.Map;
 @SessionScope
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    Map<Integer, Item> map = new HashMap<>();
+	Map<Integer, Laptop> items = new HashMap<>();
 
-    @Override
-    public Item add(Integer id) {
-        Item item = map.get(id);
-
-        if (item == null) {
-            item = DB.items.get(id);
-            item.setQty(1);
-            map.put(id, item);
-        } else {
+    public void add(Integer id) {
+        Laptop item = DB.items.get(id);
+        if (items.containsKey(id)) {
+//            item = items.get(id);
             item.setQty(item.getQty() + 1);
+        } else {
+            item.setQty(1);
+            items.put(id, item);
         }
-
-        return item;
+        item.setAmount(item.getPrice() * item.getQty());
+       
     }
 
-    @Override
-    public void remove(Integer id) {
-        map.remove(id);
-    }
+    public void update(Integer id, int qty) {
+    	Laptop item = items.get(id);
 
-    @Override
-    public Item update(Integer id, int qty) {
-        Item item = map.get(id);
         if (item != null) {
             item.setQty(qty);
+            item.setAmount(item.getPrice() * item.getQty()); 
         }
-
-        return item;
     }
 
-    @Override
+    public void remove(Integer id) {
+        items.remove(id);
+    }
+
     public void clear() {
-        map.clear();
+        items.clear();
     }
 
-    @Override
-    public Collection<Item> getItems() {
-        return map.values();
-    }
-
-    @Override
     public int getCount() {
-        return map.size();
+        return items.values().stream().mapToInt(Laptop::getQty).sum();
     }
 
-    @Override
     public double getAmount() {
-        return map.values().stream()
-                .mapToDouble(item -> item.getPrice() * item.getQty())
-                .sum();
+    	double totalAmount = items.values().stream().mapToDouble(Laptop::getAmount).sum();
+        BigDecimal roundedAmount = new BigDecimal(totalAmount).setScale(2, RoundingMode.HALF_UP);
+        return roundedAmount.doubleValue();
     }
+
+	public Map<Integer, Laptop> getItems() {
+        return items;
+    }
+	/*
+	 * public Map<Integer, Laptop> getItems() { return items; }
+	 */
 }

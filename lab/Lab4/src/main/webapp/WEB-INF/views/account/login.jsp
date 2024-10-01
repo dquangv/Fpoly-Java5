@@ -11,46 +11,88 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <script
-            src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous">
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        /* .container {
+            max-width: 500px;
+            margin-top: 50px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        } */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            height: 40px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .btn-primary {
+            width: 100%;
+            height: 40px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        #message {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<div class="container" style="margin-top: 10px;">
-    <div class="row"
-         style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+    <div class="row">
         <div class="col-sm-12">
             <h2>Login Form</h2>
-            <form action="/account/login" method="post">
+            <form id="loginForm">
                 <div class="form-group">
-                    <label>UserName</label> <input type="text" class="form-control"
-                                                   name="username" value="" placeholder="Enter UserName">
-                </div>
-                <div class="form-group">
-                    <label>Password:</label> <input type="password"
-                                                    class="form-control" name="password" value=""
-                                                    placeholder="Enter password">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="Enter Username" value="${savedUsername}">
                 </div>
                 <div class="form-group">
-                    <label>Remember me?:</label> <input type="checkbox"
-                                                        class="form-check" name="remember" value="">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Enter Password" value="${savedPassword}">
                 </div>
-                <button class="btn btn-primary">Login</button><br>
-                <div class="badge text-bg-danger">
-                    ${message}
+                <div class="form-group">
+                    <input type="checkbox" class="form-check" name="remember" style="display: inline-block;">
+                    <label style="display: inline-block; margin-left: 5px;">Remember me?</label>
                 </div>
+                <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
+                <div id="message" class="badge text-bg-danger">${message}</div>
             </form>
         </div>
     </div>
-</div>
+
+<script>
+    $('#loginBtn').click(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
+        $.ajax({
+            url: '${pageContext.request.contextPath}/account/login',
+            type: 'POST',
+            data: $('#loginForm').serialize(), // Serialize form data
+            success: function(response) {
+                $('#message').html(response.message);  // Display response message
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                $('#message').html('Login failed');
+            }
+        });
+    });
+</script>
 </body>
 </html>
