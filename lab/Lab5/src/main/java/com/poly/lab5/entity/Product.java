@@ -3,6 +3,8 @@ package com.poly.lab5.entity;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,10 +26,10 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String name;
-	String image;
 	Double price;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Creationdate")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	Date createDate = new Date();
 	Boolean available;
 	@ManyToOne @JoinColumn(name = "Categoryid")
