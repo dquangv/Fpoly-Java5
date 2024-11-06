@@ -5,18 +5,18 @@
 	class="form-control">
 	<div class="row">
 		<div class="col-6">
-			<form:input path="id" placeholder="Category Id?" class="form-control" />
+			<form:input path="id" placeholder="Id" class="form-control" />
 		</div>
 		<div class="col-6">
-			<form:input path="name" placeholder="Category Name?"
+			<form:input path="name" placeholder="Tên loại sản phẩm"
 				class="form-control" />
 		</div>
 	</div>
 	<hr>
 	<div>
-		<button formaction="/category/create" class="btn btn-primary">Create</button>
-		<button formaction="/category/update" class="btn btn-success">Update</button>
-		<a href="/category/delete/${item.id}" class="btn btn-danger">Delete</a>
-		<a href="/category/index" class="btn btn-secondary">Reset</a>
+		<button formaction="/category/create" class="btn btn-primary">Tạo</button>
+		<button formaction="/category/update" class="btn btn-success">Sửa</button>
+		<a href="/category/delete/${item.id}" class="btn btn-danger">Xoá</a>
+		<a href="/category/index" class="btn btn-secondary">Làm mới</a>
 	</div>
 </form:form>

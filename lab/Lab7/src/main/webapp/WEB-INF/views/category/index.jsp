@@ -23,10 +23,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-9">
-				<h3>Category Management</h3>
+				<h3>Quản lý danh mục sản phẩm</h3>
 			</div>
 			<div class="col-3">
-				<a href="/account/logout">Logout</a>
+				<a href="/account/logout" class="btn btn-danger">Đăng xuất</a>
 			</div>
 		</div>
 		<jsp:include page="_form.jsp"></jsp:include>

@@ -25,7 +25,6 @@ public class MailerServiceImp implements MailerService {
 	@Override
 	public void send(MailInfo mail) throws MessagingException {
 		MimeMessage message = sender.createMimeMessage();
-		// Sử dụng Helper để thiết lập các thông tin cần thiết cho message
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 		helper.setFrom(mail.getFrom());
 		helper.setTo(mail.getTo());
@@ -34,24 +33,22 @@ public class MailerServiceImp implements MailerService {
 		helper.setReplyTo(mail.getFrom());
 
 		String[] cc = mail.getCc();
-		//Kiểm tra mảng cc có tồn tại hay không
 		if (cc != null && cc.length > 0) {
 			helper.setCc(cc);
 		}
 		
 		String[] bcc = mail.getBcc();
-		//Kiểm tra mảng bcc có tồn tại hay không
 		if (bcc != null && bcc.length > 0) {
 			helper.setBcc(bcc);
 		}
-		//Mảng file
+		
 		List<File> files = mail.getFiles();
 		if (files.size()>0) {
 			for (File file:files) {
 				helper.addAttachment(file.getName(), file);
 			}
 		}
-		// Gửi message đến SMTP server
+		
 		sender.send(message);
 	}
 

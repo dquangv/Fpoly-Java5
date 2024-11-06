@@ -56,7 +56,7 @@ public class AccountController {
 				}
 			}
 		} catch (Exception e) {
-			model.addAttribute("message", "Invalid username");
+			e.printStackTrace();
 		}
 		return "account/login";
 	}
@@ -69,46 +69,46 @@ public class AccountController {
 		return "/account/login";
 	}
 	
-	@Autowired
-	CategoryDAO cateDAO;
-
-	@RequestMapping("/category/index")
-	public String index(Model model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("field") Optional<String> field) {
-		Category category = new Category();
-		model.addAttribute("item", category);
-		Pageable pageable = PageRequest.of(page.orElse(0), 5, Sort.by(Direction.ASC, field.orElse("id")));
-		Page<Category> pages = cateDAO.findAll(pageable);
-		model.addAttribute("page", pages);
-		return "category/index";
-	}
-
-	@RequestMapping("/category/edit/{id}")
-	public String edit(Model model, @PathVariable("id") String id, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("field") Optional<String> field) {
-		Category item = cateDAO.findById(id).get();
-		model.addAttribute("item", item);
-		Pageable pageable = PageRequest.of(page.orElse(0), 5, Sort.by(Direction.ASC, field.orElse("id")));
-		Page<Category> pages = cateDAO.findAll(pageable);
-		model.addAttribute("page", pages);
-		return "category/index";
-	}
-
-	@RequestMapping("/category/create")
-	public String create(Category item) {
-		cateDAO.save(item);
-		return "redirect:/category/index";
-	}
-
-	@RequestMapping("/category/update")
-	public String update(Category item) {
-		cateDAO.save(item);
-		return "redirect:/category/edit/" + item.getId();
-	}
-
-	@RequestMapping("/category/delete/{id}")
-	public String delete(@PathVariable("id") String id) {
-		cateDAO.deleteById(id);
-		return "redirect:/category/index";
-	}
+//	@Autowired
+//	CategoryDAO cateDAO;
+//
+//	@RequestMapping("/category/index")
+//	public String index(Model model, @RequestParam("page") Optional<Integer> page,
+//			@RequestParam("field") Optional<String> field) {
+//		Category category = new Category();
+//		model.addAttribute("item", category);
+//		Pageable pageable = PageRequest.of(page.orElse(0), 5, Sort.by(Direction.ASC, field.orElse("id")));
+//		Page<Category> pages = cateDAO.findAll(pageable);
+//		model.addAttribute("page", pages);
+//		return "category/index";
+//	}
+//
+//	@RequestMapping("/category/edit/{id}")
+//	public String edit(Model model, @PathVariable("id") String id, @RequestParam("page") Optional<Integer> page,
+//			@RequestParam("field") Optional<String> field) {
+//		Category item = cateDAO.findById(id).get();
+//		model.addAttribute("item", item);
+//		Pageable pageable = PageRequest.of(page.orElse(0), 5, Sort.by(Direction.ASC, field.orElse("id")));
+//		Page<Category> pages = cateDAO.findAll(pageable);
+//		model.addAttribute("page", pages);
+//		return "category/index";
+//	}
+//
+//	@RequestMapping("/category/create")
+//	public String create(Category item) {
+//		cateDAO.save(item);
+//		return "redirect:/category/index";
+//	}
+//
+//	@RequestMapping("/category/update")
+//	public String update(Category item) {
+//		cateDAO.save(item);
+//		return "redirect:/category/edit/" + item.getId();
+//	}
+//
+//	@RequestMapping("/category/delete/{id}")
+//	public String delete(@PathVariable("id") String id) {
+//		cateDAO.deleteById(id);
+//		return "redirect:/category/index";
+//	}
 }

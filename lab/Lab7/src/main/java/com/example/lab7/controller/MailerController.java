@@ -30,37 +30,39 @@ public class MailerController {
 		return "mail/index";
 	}
 
-	@ResponseBody
 	@PostMapping("/send")
-	public String send(Model model, @RequestParam("To") String txtTo, @RequestParam("CC") String txtCC,
-			@RequestParam("BCC") String txtBCC, @RequestParam("Subject") String txtSubject,
-			@RequestParam("Content") String txtContent, @RequestParam("file") MultipartFile multipartFile)
-			throws IOException {
-		MailerHelper helper = new MailerHelper();
-		List<File> files = new ArrayList<>();
-		String[] emailCC = helper.parseStringEmailToArray(txtCC);
-		String[] emailBCC = helper.parseStringEmailToArray(txtBCC);
-		MailInfo mail = new MailInfo();
-		mail.setTo(txtTo);
-		mail.setCc(emailCC);
-		mail.setBcc(emailBCC);
-		mail.setSubject(txtSubject);
-		mail.setBody(txtContent);
-		// covert MultipartFile to File
-		if (!multipartFile.isEmpty()) {
-			File file = helper.convertMultipartFileToFile(multipartFile);
-			files.add(file);
-			// Set cho MailInfo
-			mail.setFiles(files);
-		}
-		// Gửi mail
-		mailer.queue(mail);
-		try {
-			mailer.send(mail);
-//			model.addAttribute("message", "Mail sent successfully!");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "<h3>Mail sent Successfully</h3>";
+	public String send(Model model, @RequestParam("To") String txtTo, 
+	                   @RequestParam("CC") String txtCC,
+	                   @RequestParam("BCC") String txtBCC, 
+	                   @RequestParam("Subject") String txtSubject,
+	                   @RequestParam("Content") String txtContent, 
+	                   @RequestParam("file") MultipartFile multipartFile) 
+	                   throws IOException {
+	    MailerHelper helper = new MailerHelper();
+	    List<File> files = new ArrayList<>();
+	    String[] emailCC = helper.parseStringEmailToArray(txtCC);
+	    String[] emailBCC = helper.parseStringEmailToArray(txtBCC);
+	    MailInfo mail = new MailInfo();
+	    mail.setTo(txtTo);
+	    mail.setCc(emailCC);
+	    mail.setBcc(emailBCC);
+	    mail.setSubject(txtSubject);
+	    mail.setBody(txtContent);
+	    
+	    if (!multipartFile.isEmpty()) {
+	        File file = helper.convertMultipartFileToFile(multipartFile);
+	        files.add(file);
+	        mail.setFiles(files);
+	    }
+
+	    try {
+	        mailer.send(mail);
+	        model.addAttribute("message", "Mail sent successfully!");
+	    } catch (Exception e) {
+	        model.addAttribute("message", "Failed to send mail: " + e.getMessage());
+	    }
+
+	    return "mail/index"; 
 	}
+
 }
